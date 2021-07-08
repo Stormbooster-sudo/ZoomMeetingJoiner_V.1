@@ -9,6 +9,7 @@ root.title("Meeting Joiner")
 root.geometry("520x480+100+100")
 topFrame = LabelFrame(root)
 topFrame.pack(fill="both", expand="yes",padx=10,pady=10)
+
 #entry box
 Label(topFrame,text="Meeting Code").grid(row = 0,column= 0,sticky = W)
 Label(topFrame,text="Password").grid(row = 1,column= 0, sticky = W)
@@ -16,6 +17,7 @@ Label(topFrame,text="Room Name").grid(row = 2,column= 0, sticky = W)
 Label(topFrame,text="Time").grid(row = 3,column= 0, sticky = W)
 Label(topFrame,text="Username").grid(row = 4,column= 0, sticky = W)
 
+#setting up variable
 roomcode = StringVar()
 passcode = StringVar()
 get_roomname = StringVar()
@@ -46,7 +48,6 @@ def program_ui():
     mycanvas.pack(side=LEFT, fill="both", expand="yes")
     yscroll = Scrollbar(frame,orient="vertical",command=mycanvas.yview)
     yscroll.pack(side=RIGHT, fill="y")
-
     mycanvas.configure(yscrollcommand=yscroll.set)
     mycanvas.bind('<Configure>',lambda e: mycanvas.configure(scrollregion = mycanvas.bbox('all')))
     myframe = Frame(mycanvas,bg="white")

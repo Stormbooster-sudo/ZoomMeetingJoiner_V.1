@@ -8,9 +8,8 @@ import sys
 def sign_in(meeting_id, pc):
     #open up the zoom app
 
-    #Please path your zoom software
+    #Please path your zoom launcher
     subprocess.call(["/Users/acer/AppData/Roaming/Zoom/bin/zoom.exe"])
-    # webbrowser.open('https://zoom.us/')
     time.sleep(5)
 
     #zoom bot

@@ -10,16 +10,12 @@ def sign_in(meeting_id, pc, username):
     
     #Please path your zoom software
     subprocess.Popen(["/Users/acer/AppData/Roaming/Zoom/bin/zoom.exe"])
-    print("Call Zoom.")
-    time.sleep(5)
-    print("Signing In ............")
-    time.sleep(5)
+    time.sleep(10)
 
     join_meet_btn = pyautogui.locateCenterOnScreen(os.path.join(sys.path[0], "join_button.png"))
     #zoom bot
     #checking and click join meeting
     if  join_meet_btn == None:
-        print("Your didn't sign in via acount.")
         join_meet_btn = pyautogui.locateCenterOnScreen(os.path.join(sys.path[0], "join_meeting.png"))
         pyautogui.moveTo(join_meet_btn)
         pyautogui.click()

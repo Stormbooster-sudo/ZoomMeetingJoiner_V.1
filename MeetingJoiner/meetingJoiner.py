@@ -1,5 +1,6 @@
-
 from tkinter import *
+from tkinter.font import Font
+from tkinter import messagebox
 from rooms_csv import *
 from zoom_bot import sign_in
 
@@ -9,7 +10,6 @@ root.title("Meeting Joiner")
 root.geometry("520x480+100+100")
 topFrame = LabelFrame(root)
 topFrame.pack(fill="both", expand="yes",padx=10,pady=10)
-
 #entry box
 Label(topFrame,text="Meeting Code").grid(row = 0,column= 0,sticky = W)
 Label(topFrame,text="Password").grid(row = 1,column= 0, sticky = W)
@@ -17,7 +17,6 @@ Label(topFrame,text="Room Name").grid(row = 2,column= 0, sticky = W)
 Label(topFrame,text="Time").grid(row = 3,column= 0, sticky = W)
 Label(topFrame,text="Username").grid(row = 4,column= 0, sticky = W)
 
-#setting up variable
 roomcode = StringVar()
 passcode = StringVar()
 get_roomname = StringVar()
@@ -48,6 +47,7 @@ def program_ui():
     mycanvas.pack(side=LEFT, fill="both", expand="yes")
     yscroll = Scrollbar(frame,orient="vertical",command=mycanvas.yview)
     yscroll.pack(side=RIGHT, fill="y")
+
     mycanvas.configure(yscrollcommand=yscroll.set)
     mycanvas.bind('<Configure>',lambda e: mycanvas.configure(scrollregion = mycanvas.bbox('all')))
     myframe = Frame(mycanvas,bg="white")
@@ -71,19 +71,76 @@ def program_ui():
             get_time.set("")   
             frame.destroy()
         else:
-            frame.destroy()
-            print("Please enter your room")
+            messagebox.showerror("ERROR", "Please enter your room infomation.")
         program_ui()
     Button(topFrame,text="ADD",width=10,height=1,bd = 1,command=addRoom).grid(row = 0,column = 8,sticky=E,padx = 5)
     
     rn, rc, pc, un, t = getInfo()
-    def call_sign_in(i):
-        print("signing in ............")
-        sign_in(str(rc[i]),str(pc[i]))
+    def roomWin(i):
+        room_win = Toplevel(root)
+        room_win.wm_title(rn[i])
+        room_win.geometry("400x200+"+str(root.winfo_x()+50)+"+"+str(root.winfo_y()+100))
+        room_win.resizable(False,False)
+
+        roomName = Label(room_win, text=rn[i],font=("",15))
+        roomName.place(x=200,y=30,anchor="center")
+        userName = Label(room_win, text=F"Username: {un[i]}",font=("",10))
+        userName.place(x=200,y=70,anchor="center")
+        time = Label(room_win, text=F"Time: {t[i]}",font=("",10))
+        time.place(x=200,y=90,anchor="center")
+
+        def join_zoom():
+            print("Call Sign in bot.")
+            sign_in(str(rc[i]),str(pc[i]),str(un[i]))
+        
+        def delete():
+            print("Delete....")
+            deleteRow(i)
+            room_win.destroy()
+            messagebox.showinfo("Deleted", "Delete complete.")
+            frame.destroy()
+            program_ui()
+        
+        def edit():
+            #Show exist data in entry box
+            roomcode.set(rc[i])
+            passcode.set(pc[i])
+            get_username.set(un[i])
+            get_roomname.set(rn[i])
+            get_time.set(t[i])
+            room_win.destroy()
+            
+            def update():
+                #Like Adding
+                get_rc = roomcode.get()
+                get_rc = get_rc.replace(" ","")
+                get_pc = passcode.get()
+                get_rn = get_roomname.get()
+                get_un = get_username.get()
+                get_t = get_time.get()
+                data = {'room_name':get_rn,'roomcode':get_rc, 'passcode':get_pc, 'username':get_un,'time':get_t}
+                updateData(i,data)
+                roomcode.set("")
+                passcode.set("")
+                get_username.set("")
+                get_roomname.set("")
+                get_time.set("")   
+                messagebox.showinfo("Updated", "Update complete.")
+                frame.destroy()
+                program_ui()
+            Button(topFrame,text="UPDATE",width=10,height=1,bd = 1,command=update).grid(row = 1,column = 8,sticky=E,padx = 5)
+
+        signin_b = Button(room_win, text="Sign In",command = join_zoom,bg = "blue",fg = "white",activebackground='#345',activeforeground='white', relief="ridge",borderwidth=1)
+        signin_b.place(x=140,y=150,anchor="center")
+        edit_b = Button(room_win, text="Edit",command = edit,bg = "skyblue",fg = "white",activebackground='#345',activeforeground='white', relief="ridge",borderwidth=1)
+        edit_b.place(x=200,y=150,anchor="center")
+        del_b = Button(room_win, text="Delete",command = delete,bg = "red",fg = "white",activebackground='#345',activeforeground='white', relief="ridge",borderwidth=1)
+        del_b.place(x=260,y=150,anchor="center")
+
         
     btn = []
     for i in range(getLenght()):
-        b = Button(myframe,text=F"{rn[i]}", fg="white", bg="skyblue",font="10",bd = 0,width=42,height=5,command=lambda i = i: call_sign_in(i)).pack(pady=2)
+        b = Button(myframe,text=F"{rn[i]}", fg="white", bg="skyblue",font="10",bd = 0,width=42,height=5,command=lambda i = i: roomWin(i)).pack(pady=2)
         btn.append(b)
     
 

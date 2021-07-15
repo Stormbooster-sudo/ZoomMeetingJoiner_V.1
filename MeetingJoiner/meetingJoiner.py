@@ -90,11 +90,9 @@ def program_ui():
         time.place(x=200,y=90,anchor="center")
 
         def join_zoom():
-            print("Call Sign in bot.")
             sign_in(str(rc[i]),str(pc[i]),str(un[i]))
         
         def delete():
-            print("Delete....")
             deleteRow(i)
             room_win.destroy()
             messagebox.showinfo("Deleted", "Delete complete.")

@@ -1,27 +1,42 @@
 import subprocess
 import pyautogui
 import time
-# from datetime import datetime
+# from datetime import datetime #For automatic sign-in but now not available.
 import os
 import sys
 
-def sign_in(meeting_id, pc):
+def sign_in(meeting_id, pc, username):
     #open up the zoom app
-
-    #Please path your zoom launcher
-    subprocess.call(["/Users/acer/AppData/Roaming/Zoom/bin/zoom.exe"])
+    
+    #Please path your zoom software
+    subprocess.Popen(["/Users/acer/AppData/Roaming/Zoom/bin/zoom.exe"])
+    print("Call Zoom.")
+    time.sleep(5)
+    print("Signing In ............")
     time.sleep(5)
 
-    #zoom bot
-    #click join meeting
     join_meet_btn = pyautogui.locateCenterOnScreen(os.path.join(sys.path[0], "join_button.png"))
-    pyautogui.moveTo(join_meet_btn)
-    pyautogui.click()
+    #zoom bot
+    #checking and click join meeting
+    if  join_meet_btn == None:
+        print("Your didn't sign in via acount.")
+        join_meet_btn = pyautogui.locateCenterOnScreen(os.path.join(sys.path[0], "join_meeting.png"))
+        pyautogui.moveTo(join_meet_btn)
+        pyautogui.click()
+    else:
+        pyautogui.moveTo(join_meet_btn)
+        pyautogui.click()
+        
 
     #Enter meeting id
     meeting_id_box = pyautogui.locateCenterOnScreen(os.path.join(sys.path[0], "meeting_id.png"))
     pyautogui.moveTo(meeting_id_box)
     pyautogui.write(meeting_id)
+
+    #Enter username
+    username_box = pyautogui.locateCenterOnScreen(os.path.join(sys.path[0],"username.png"))
+    pyautogui.moveTo(username_box)
+    pyautogui.write(username)
 
     #Tick box
     radio_box = pyautogui.locateAllOnScreen(os.path.join(sys.path[0], "radio_box.png"))#multiple index
@@ -41,3 +56,4 @@ def sign_in(meeting_id, pc):
     pyautogui.moveTo(passcode_box)
     pyautogui.write(pc)
     pyautogui.press('enter')
+    print("Signed In.")

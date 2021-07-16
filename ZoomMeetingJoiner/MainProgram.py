@@ -8,7 +8,7 @@ import os
 import sys
 
 
-path_file = open("zoom_path.txt",'r+')
+path_file = open(os.path.join(sys.path[0], "zoom_path.txt"),'r+')
 path = path_file.readline()
 #Direct the path.
 if path == "":

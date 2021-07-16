@@ -11,7 +11,7 @@ import sys
 path_file = open(os.path.join(sys.path[0], "zoom_path.txt"),'r+')
 path = path_file.readline()
 #Direct the path.
-if path == "":
+if path == "None":
     pathWin = Tk()
     pathWin.title('File Explorer')
     pathWin.geometry("400x200+150+100")

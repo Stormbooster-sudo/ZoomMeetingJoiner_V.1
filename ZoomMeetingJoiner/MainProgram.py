@@ -11,14 +11,13 @@ import sys
 path_file = open(os.path.join(sys.path[0], "zoom_path.txt"),'r+')
 path = path_file.readline()
 #Direct the path.
-if path == "None":
+if len(path) == 0:
     pathWin = Tk()
     pathWin.title('File Explorer')
     pathWin.geometry("400x200+150+100")
     def browseFiles():
         def confirm():
             path_file.write(filename)
-            print(path_file.readline()) 
             path_file.truncate()
             path_file.close()
             pathWin.destroy()

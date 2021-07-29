@@ -59,5 +59,5 @@ def sign_in(p,meeting_id, pc, username):
     passcode_box = pyautogui.locateCenterOnScreen(os.path.join(sys.path[0],"image/passcode.png"))
     pyautogui.moveTo(passcode_box)
     pyautogui.write(pc)
-    # pyautogui.press('enter')
+    pyautogui.press('enter')
     print("Signed In.")

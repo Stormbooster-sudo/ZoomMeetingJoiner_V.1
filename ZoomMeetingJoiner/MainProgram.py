@@ -125,7 +125,7 @@ def program_ui():
             print("Call Sign in bot.")
             with open(os.path.join(sys.path[0], "zoom_path.txt"),'r+') as pathFile:
                 path = pathFile.readline()
-            sign_in(path,str(rc[i]),str(pc[i]),str(un[i]))
+            sign_in(path,str(rc[i]).strip(".0"),str(pc[i]).strip(".0"),str(un[i]))
         
         def delete():
             print("Delete....")
